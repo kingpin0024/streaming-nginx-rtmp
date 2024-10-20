@@ -1,0 +1,23 @@
+FROM jrottenberg/ffmpeg:4.4-ubuntu
+
+# Install additional dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    librtmp-dev \
+    netcat \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Create the output directory and set permissions
+RUN mkdir -p /var/www/html/dash && chmod 777 /var/www/html/dash
+
+# Copy any necessary scripts
+COPY transcode_dash.sh /app/
+
+# Make sure the script is executable
+RUN chmod +x /app/transcode_dash.sh
+
+# Set the entrypoint to bash so we can run our command
+ENTRYPOINT ["/bin/bash", "-c"]

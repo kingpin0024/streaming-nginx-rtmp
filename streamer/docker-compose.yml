@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  rtmp:
+    image: tiangolo/nginx-rtmp
+    ports:
+      - "1935:1935"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./rtmp.conf:/etc/nginx/nginx.conf:ro
+      - ./dash-output:/var/www/html/dash
+      - /etc/letsencrypt/live/newrnd2.convay.com/fullchain.pem:/etc/letsencrypt/live/newrnd2.convay.com/fullchain.pem:ro
+      - /etc/letsencrypt/live/newrnd2.convay.com/privkey.pem:/etc/letsencrypt/live/newrnd2.convay.com/privkey.pem:ro
+
+  ffmpeg:
+    build:
+      context: .
+      dockerfile: Dockerfile.ffmpeg
+    volumes:
+      - ./dash-output:/var/www/html/dash
+    depends_on:
+      - rtmp
+    restart: unless-stopped
+    command: ./transcode_dash.sh
+
+networks:
+  default:
+    name: streaming_network
