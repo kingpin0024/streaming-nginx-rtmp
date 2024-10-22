@@ -24,6 +24,15 @@ services:
     restart: unless-stopped
     command: ./transcode_dash.sh
 
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.10.0
+    command:
+      - -nginx.scrape-uri=http://rtmp:80/stat
+    ports:
+      - "9113:9113"
+    depends_on:
+      - rtmp
+
 networks:
   default:
     name: streaming_network
