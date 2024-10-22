@@ -1,0 +1,21 @@
+#!/bin/bash
+ffmpeg -re -i "/u01/office_s05e14.mkv" \
+       -c:v libx264 \
+       -preset veryfast \
+       -profile:v main \
+       -level 4.0 \
+       -b:v 2500k \
+       -maxrate 2500k \
+       -bufsize 5000k \
+       -vf "scale=-2:720" \
+       -pix_fmt yuv420p \
+       -g 60 \
+       -keyint_min 60 \
+       -sc_threshold 0 \
+       -c:a aac \
+       -b:a 128k \
+       -ac 2 \
+       -ar 48000 \
+       -movflags +faststart \
+       -tune zerolatency \
+       -f flv "rtmp://streaming.convay.com:1935/live/stream"

@@ -4,4 +4,4 @@ global:
 scrape_configs:
   - job_name: 'streamer'
     static_configs:
-      - targets: ['172.17.0.1:8000']  # Update this if using an exporter
+      - targets: ['172.17.0.1:9113']  # Update this if using an exporter
