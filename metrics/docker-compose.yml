@@ -1,3 +1,4 @@
+# docker-compose.yml
 version: "3.8"
 
 services:
@@ -20,5 +21,10 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=yourpassword # Set your Grafana admin password here
+      - GF_SECURITY_ADMIN_PASSWORD=yourpassword
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - grafana-storage:/var/lib/grafana
 
+volumes:
+  grafana-storage:

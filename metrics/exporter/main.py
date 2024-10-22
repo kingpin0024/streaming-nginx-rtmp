@@ -36,8 +36,13 @@ def update_metrics(rtmp_url):
         nclients = int(root.find(".//server/application/live/nclients").text)
         CLIENTS.set(nclients)
 
-        # Since there are no streams in the provided XML, we set streams to 0
-        STREAMS.set(0)  # Update this if streams are available in the future
+        # Parse active streams (if streams are present)
+        streams = root.find(".//server/application/live/stream")
+        if streams is not None:
+            active_streams = int(streams.find(".//nclients").text)
+            STREAMS.set(active_streams)
+        else:
+            STREAMS.set(0)  # No active streams
 
     except Exception as e:
         print(f"Error fetching RTMP stats: {e}")
@@ -56,4 +61,4 @@ if __name__ == "__main__":
     # Main loop to update metrics
     while True:
         update_metrics(rtmp_url)
-        time.sleep(10)  # Update every 10 seconds
+        time.sleep(1)  # Update every 10 seconds

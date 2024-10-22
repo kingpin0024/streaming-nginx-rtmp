@@ -1,0 +1,53 @@
+.quality-selector {
+  position: absolute;
+  bottom: 60px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.quality-button {
+  background: rgba(28, 28, 28, 0.9);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quality-icon {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.current-quality {
+  font-size: 14px;
+}
+
+.quality-menu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background: rgba(28, 28, 28, 0.9);
+  border-radius: 4px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+  min-width: 150px;
+}
+
+.quality-option {
+  padding: 8px 16px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.quality-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.quality-option.active {
+  background: rgba(255, 255, 255, 0.2);
+}
