@@ -22,9 +22,3 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=yourpassword # Set your Grafana admin password here
 
-  nginx-exporter:
-    image: nginx/nginx-prometheus-exporter:0.10.0
-    command:
-      - -nginx.scrape-uri=http://172.17.0.1:80/stub_status
-    ports:
-      - "9113:9113"
