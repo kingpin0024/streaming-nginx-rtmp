@@ -10,8 +10,8 @@ services:
     volumes:
       - ./rtmp.conf:/etc/nginx/nginx.conf:ro
       - ./dash-output:/var/www/html/dash
-      # - /etc/letsencrypt/live/streaming.convay.com/fullchain.pem:/etc/letsencrypt/live/streaming.convay.com/fullchain.pem:ro
-      # - /etc/letsencrypt/live/streaming.convay.com/privkey.pem:/etc/letsencrypt/live/streaming.convay.com/privkey.pem:ro
+      - /etc/letsencrypt/live/streaming.convay.com/fullchain.pem:/etc/letsencrypt/live/streaming.convay.com/fullchain.pem:ro
+      - /etc/letsencrypt/live/streaming.convay.com/privkey.pem:/etc/letsencrypt/live/streaming.convay.com/privkey.pem:ro
 
   ffmpeg:
     build:
