@@ -1,8 +1,8 @@
-version: "3"
-
 services:
   rtmp:
-    image: tiangolo/nginx-rtmp
+    build:
+      context: ./
+      dockerfile: Dockerfile.nginx
     ports:
       - "1935:1935"
       - "80:80"
@@ -10,8 +10,8 @@ services:
     volumes:
       - ./rtmp.conf:/etc/nginx/nginx.conf:ro
       - ./dash-output:/var/www/html/dash
-      - /etc/letsencrypt/live/streaming.convay.com/fullchain.pem:/etc/letsencrypt/live/streaming.convay.com/fullchain.pem:ro
-      - /etc/letsencrypt/live/streaming.convay.com/privkey.pem:/etc/letsencrypt/live/streaming.convay.com/privkey.pem:ro
+      # - /etc/letsencrypt/live/streaming.convay.com/fullchain.pem:/etc/letsencrypt/live/streaming.convay.com/fullchain.pem:ro
+      # - /etc/letsencrypt/live/streaming.convay.com/privkey.pem:/etc/letsencrypt/live/streaming.convay.com/privkey.pem:ro
 
   ffmpeg:
     build:
@@ -23,15 +23,6 @@ services:
       - rtmp
     restart: unless-stopped
     command: ./transcode_dash.sh
-
-  nginx-exporter:
-    image: nginx/nginx-prometheus-exporter:0.10.0
-    command:
-      - -nginx.scrape-uri=http://rtmp:80/stat
-    ports:
-      - "9113:9113"
-    depends_on:
-      - rtmp
 
 networks:
   default:

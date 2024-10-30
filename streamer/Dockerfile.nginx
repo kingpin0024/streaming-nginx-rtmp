@@ -1,0 +1,40 @@
+FROM ubuntu:20.04
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    openssl \
+    libssl-dev \
+    libpcre3-dev \
+    zlib1g-dev \
+    gcc \
+    make \
+    libc-dev \
+    git \
+    wget \
+    tar
+
+# Download the stable version of nginx instead of cloning the entire repo
+RUN wget http://nginx.org/download/nginx-1.24.0.tar.gz -O /tmp/nginx.tar.gz && \
+    tar -xzvf /tmp/nginx.tar.gz -C /tmp && \
+    git clone https://github.com/arut/nginx-rtmp-module.git /tmp/nginx-rtmp-module
+
+# Build and install NGINX with the RTMP module
+RUN cd /tmp/nginx-1.24.0 && \
+    ./configure --add-module=/tmp/nginx-rtmp-module --with-http_stub_status_module --prefix=/usr/local/nginx --sbin-path=/usr/local/sbin/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --with-http_ssl_module && \
+    make && \
+    make install
+
+# Clean up build dependencies and temporary files safely
+RUN apt-get remove -y gcc make git wget && \
+    apt-get clean && \
+    apt-get autoremove -y && \
+    rm -rf /tmp/nginx-1.24.0 /tmp/nginx.tar.gz /tmp/nginx-rtmp-module /var/lib/apt/lists/*
+
+# Create necessary directories for nginx
+RUN mkdir -p /var/log/nginx /etc/nginx
+
+# Copy the RTMP configuration
+COPY rtmp.conf /etc/nginx/nginx.conf
+
+# Set up the command to run NGINX
+CMD ["nginx", "-g", "daemon off;"]
