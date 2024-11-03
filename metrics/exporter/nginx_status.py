@@ -91,7 +91,7 @@ class NginxStatusCollector:
 def main():
     # Get configuration from environment variables
     nginx_status_url = os.getenv(
-        "NGINX_STATUS_URL", "http://172.17.0.1:80/nginx_status"
+        "NGINX_STATUS_URL", "https://streaming.convay.com/nginx_status"
     )
     exporter_port = int(os.getenv("STATUS_EXPORTER_PORT", "9114"))
     polling_interval_seconds = int(os.getenv("POLLING_INTERVAL_SECONDS", "15"))
