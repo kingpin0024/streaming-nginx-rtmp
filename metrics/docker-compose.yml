@@ -41,5 +41,16 @@ services:
       - "9100:9100"
     restart: unless-stopped
 
+  nginx-exporter:
+    build:
+      context: ./exporter
+      dockerfile: Dockerfile
+    container_name: nginx-exporter
+    ports:
+      - "9114:9114"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
 volumes:
   grafana-storage:

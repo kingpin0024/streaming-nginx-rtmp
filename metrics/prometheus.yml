@@ -18,4 +18,4 @@ scrape_configs:
       - targets: ['172.17.0.1:8000']
   - job_name: nginx_status
     static_configs:
-      - targets: ['172.17.0.1:9114']
+      - targets: ['nginx-exporter:9114']
